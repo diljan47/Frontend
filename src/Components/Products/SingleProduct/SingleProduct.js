@@ -9,7 +9,6 @@ import { getAProduct } from "../../../features/products/productSlice";
 import { toast } from "sonner";
 import { addProductsToCart, getCart } from "../../../features/user/userSlice";
 const SingleProduct = () => {
-  // const [imageSelected, setImageSelected] = useState();
   const singleProdState = useSelector((state) => state?.product?.product);
   const userCartState = useSelector((state) => state?.auth?.userCart);
   const [color, setColor] = useState(null);
