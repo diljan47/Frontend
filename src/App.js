@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SingleProductPage from "./Components/Products/SingleProduct/SingleProduct";
+import ProductPage from "./Pages/ProductPage";
+import OrderPage from "./Pages/OrderPage";
+import SignInPage from "./Pages/SignIn";
+import SignUpPage from "./Pages/SignUpPage";
+import HomeLayout from "./Components/Layout/HomeLayout";
+import SearchLayout from "./Components/Layout/SearchLayout";
+import HomePage from "./Pages/HomePage";
+import { Toaster } from "sonner";
+import WishlistPage from "./Pages/WishlistPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Toaster richColors position="top-center" />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/:id" element={<SingleProductPage />} />
+            <Route path="order" element={<OrderPage />} />
+          </Route>
+          <Route path="/search" element={<SearchLayout />}>
+            <Route path="products" element={<ProductPage />} />
+            <Route path="wishlist" element={<WishlistPage />} />
+          </Route>
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

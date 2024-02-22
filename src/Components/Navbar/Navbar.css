@@ -1,0 +1,145 @@
+.nav-container {
+  display: flex;
+  max-width: 1536px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+  background-color: white;
+  padding: 1rem;
+  align-items: center;
+}
+.side-nav {
+  display: none;
+}
+.ham-menu {
+  display: none;
+}
+.logo-web {
+  padding: 2px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-left: 2rem;
+}
+
+.search {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 5px;
+  margin: auto;
+  background-color: var(--light-grey);
+  border-radius: 10px;
+}
+.search input {
+  background-color: var(--light-grey);
+  border: none;
+  width: 350px;
+  height: 24px;
+}
+.search-btn {
+  padding: 3px;
+}
+.search-btn-mob {
+  display: none;
+}
+.section {
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-right: 2.5rem;
+  display: flex;
+}
+
+/* side-nav */
+
+@media (max-width: 1536px) {
+  .nav-container {
+    max-width: 1280px;
+  }
+}
+@media (max-width: 1280px) {
+  .nav-container {
+    max-width: 90%;
+  }
+}
+@media (max-width: 1024px) {
+  .nav-container {
+    max-width: 90%;
+    gap: 5px;
+    align-items: center;
+  }
+  .logo-web {
+    display: none;
+  }
+  .ham-menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px;
+    outline: none;
+    cursor: pointer;
+  }
+  .logo-mob {
+    padding: 2px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-left: 0.8rem;
+  }
+  .search {
+    display: none;
+  }
+  .search-btn-mob {
+    display: block;
+  }
+  .section {
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 8px;
+    margin-left: 10px;
+    display: flex;
+  }
+  .side-nav-background {
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 8;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .side-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 75vw;
+    z-index: 10;
+    height: 100vh;
+    background: white;
+  }
+  .btn-close {
+    position: absolute;
+    top: 0;
+    margin: 1rem;
+    padding: 10px;
+    right: 0;
+    cursor: pointer;
+    background-color: var(--light-grey);
+    border-radius: 15px;
+  }
+}
+@media (max-width: 768px) {
+  .nav-container {
+    max-width: 90%;
+  }
+}
+@media (max-width: 640px) {
+  .nav-container {
+    max-width: 100%;
+  }
+}
+@media (max-width: 475px) {
+  .nav-container {
+    max-width: 100%;
+  }
+}
