@@ -34,10 +34,10 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    if (authState.createdUser !== null && authState.isSuccess === true) {
+    if (authState.isSuccess) {
       navigate("/signin");
     }
-  }, [authState, navigate]);
+  }, [authState.isSuccess, navigate]);
 
   return (
     <header className="signup-cont">

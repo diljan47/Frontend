@@ -84,7 +84,7 @@ export const productSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload?.messsage;
-        toast.error(action.payload?.response?.data);
+        toast.warning("Please Login To Add Products");
       })
       .addCase(getAProduct.pending, (state) => {
         state.isLoading = true;

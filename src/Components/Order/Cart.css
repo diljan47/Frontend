@@ -45,6 +45,12 @@
   align-self: center;
   flex-direction: column;
 }
+.delete-btn {
+  cursor: pointer;
+}
+.delete-btn:hover {
+  color: red;
+}
 
 /*////*/
 .order-sum {

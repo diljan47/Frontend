@@ -11,12 +11,12 @@ import { addProductsToCart, getCart } from "../../../features/user/userSlice";
 const SingleProduct = () => {
   const singleProdState = useSelector((state) => state?.product?.product);
   const userCartState = useSelector((state) => state?.auth?.userCart);
+
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const location = useLocation();
   const pramId = location.pathname.split("/")[1];
   const [isCartAdded, setIsCartAdded] = useState(false);
-  console.log(isCartAdded);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -108,7 +108,7 @@ const SingleProduct = () => {
                 {isCartAdded ? null : (
                   <input
                     type="number"
-                    defaultValue={1}
+                    min={1}
                     style={{ width: "30px" }}
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
@@ -117,7 +117,7 @@ const SingleProduct = () => {
               </div>
               {isCartAdded ? (
                 <button
-                  onClick={() => navigate("/order")}
+                  onClick={() => navigate("/cart")}
                   className="addCart-btn"
                 >
                   Go To Cart

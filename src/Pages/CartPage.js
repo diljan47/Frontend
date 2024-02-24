@@ -1,14 +1,14 @@
 import React from "react";
-import Order from "../Components/Order/Order";
 import MoreProducts from "../Components/MoreProd/SideProducts/MoreProducts";
+import Cart from "../Components/Order/Cart";
 
-const OrderPage = () => {
+const CartPage = () => {
   return (
     <>
-      <Order />
+      <Cart />
       <MoreProducts />
     </>
   );
 };
 
-export default OrderPage;
+export default CartPage;

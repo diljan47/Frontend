@@ -5,7 +5,6 @@ import { toast } from "sonner";
 const getCustomerLocalStorage = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
   : null;
-
 const initialState = {
   user: getCustomerLocalStorage,
   isError: false,
@@ -50,13 +49,26 @@ export const addProductsToCart = createAsyncThunk(
   "user/cart/add",
   async (data, thunkapi) => {
     try {
-      return await authService.addToCart(data);
+      const result = await authService.addToCart(data);
       thunkapi.dispatch(getCart());
+      return result;
     } catch (error) {
       return thunkapi.rejectWithValue(error);
     }
   }
 );
+export const deleteAProdCart = createAsyncThunk(
+  "user/cart/delete",
+  async (data, thunkapi) => {
+    try {
+      const result = await authService.deleteACart(data);
+      return result;
+    } catch (error) {
+      return thunkapi.rejectWithValue(error);
+    }
+  }
+);
+
 export const getCart = createAsyncThunk("user/cart/get", async (thunkapi) => {
   try {
     return await authService.getUserCart();
@@ -64,6 +76,16 @@ export const getCart = createAsyncThunk("user/cart/get", async (thunkapi) => {
     return thunkapi.rejectWithValue(error);
   }
 });
+export const updateQuantityFromCart = createAsyncThunk(
+  "user/cart/update",
+  async (quantityUpdate, thunkapi) => {
+    try {
+      return await authService.updateQuantity(quantityUpdate);
+    } catch (error) {
+      return thunkapi.rejectWithValue(error);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -99,7 +121,8 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.user = action.payload;
         if (state.isSuccess === true) {
-          localStorage.setItem("token", action.payload?.accesstoken);
+          console.log("inside userSlice", action.payload?.token);
+          localStorage.setItem("token", action.payload.token);
           toast.success("Sign in successfull");
         }
       })
@@ -141,8 +164,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.payload?.message;
-        toast.error(state.message);
+        toast.warning("Please Login To Add Products");
       })
       .addCase(getCart.pending, (state) => {
         state.isLoading = true;
@@ -157,10 +179,39 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
+      })
+      .addCase(deleteAProdCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteAProdCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.deletedCart = action.payload;
+      })
+      .addCase(deleteAProdCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload?.message;
+        toast.error(state.message);
+      })
+      .addCase(updateQuantityFromCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateQuantityFromCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedCart = action.payload;
+      })
+      .addCase(updateQuantityFromCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
         state.message = action.payload?.message;
         toast.error(state.message);
       });
   },
 });
-
 export default authSlice.reducer;

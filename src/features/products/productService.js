@@ -1,6 +1,17 @@
 import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
-import { config } from "../../utils/axiosConfig";
+// import { config } from "../../utils/axiosConfig";
+
+const createConfig = () => {
+  const getToken = localStorage.getItem("token");
+  console.log("from config", getToken);
+  return {
+    headers: {
+      authorization: `Bearer ${getToken ? getToken : null}`,
+      Accept: "application/json",
+    },
+  };
+};
 
 const getProducts = async () => {
   const response = await axios.get(`${baseUrl}/products`);
@@ -13,7 +24,7 @@ const addWishlist = async (prodId) => {
   const response = await axios.put(
     `${baseUrl}/products/wishlist`,
     { prodId },
-    config
+    createConfig()
   );
   if (response.data) {
     return response.data.wishlist;

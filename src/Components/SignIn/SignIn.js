@@ -28,11 +28,10 @@ const SignIn = () => {
   });
 
   useEffect(() => {
-    if (authState.user !== "" && authState.isSuccess === true) {
+    if (authState?.user !== null && authState?.isSuccess === true) {
       navigate("/");
     }
-  }, [authState, navigate]);
-
+  }, [authState]);
   return (
     <header className="login-cont">
       <Link to={"/"}>
