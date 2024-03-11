@@ -7,6 +7,7 @@ import {
   updateQuantityFromCart,
 } from "../../features/user/userSlice";
 import { MdDelete } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 const Cart = () => {
   const [quantityUpdates, setQuantityUpdates] = useState({});
@@ -47,7 +48,7 @@ const Cart = () => {
   }, [quantityUpdates]);
 
   useEffect(() => {
-    if (cartState) {
+    if (cartState && Array.isArray(cartState)) {
       let totals = {};
       cartState.forEach((item) => {
         const total = Number(item?.productId?.price) * item?.quantity;
@@ -65,8 +66,8 @@ const Cart = () => {
   }, [cartState, quantityUpdates]);
 
   return (
-    <div className="order-cart-container">
-      {cartState ? (
+    <div className="cart-cart-container">
+      {cartState && cartState.length > 0 ? (
         <div className="cart-cont">
           {cartState.map((item, index) => (
             <div key={index} className="cart-sum">
@@ -105,15 +106,17 @@ const Cart = () => {
               </div>
             </div>
           ))}
-          <div className="order-sum">
-            <div className="order-sum-col">
-              <span>Order Summary</span>
-              <div className="order-spacebtw">
+          <div className="cart-sum">
+            <div className="cart-sum-col">
+              <span>cart Summary</span>
+              <div className="cart-spacebtw">
                 <span>SubTotal : ${subTotals && subTotals}</span>
               </div>
               <span>Total</span>
               <div className="checkout-btn">
-                <span>Go to Checkout</span>
+                <NavLink to={"/order"}>
+                  <span style={{ color: "white" }}>Go to Checkout</span>
+                </NavLink>
               </div>
             </div>
           </div>

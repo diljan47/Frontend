@@ -1,61 +1,65 @@
-import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
-//
-
-const createConfig = () => {
-  const getToken = localStorage.getItem("token");
-  console.log("from config", getToken);
-  return {
-    headers: {
-      authorization: `Bearer ${getToken ? getToken : null}`,
-      Accept: "application/json",
-    },
-  };
-};
+import axiosInstance from "../../utils/axiosConfig";
 
 const register = async (userData) => {
-  const response = await axios.post(`${baseUrl}/user/register`, userData);
+  const response = await axiosInstance.post(
+    `${baseUrl}/user/register`,
+    userData
+  );
   if (response.data) {
-    if (response.data) {
-      localStorage.setItem("customer", JSON.stringify(response.data));
-    }
     return response.data;
   }
 };
 const login = async (userData) => {
-  const response = await axios.post(`${baseUrl}/user/login`, userData);
+  const response = await axiosInstance.post(`${baseUrl}/user/login`, userData);
+  if (response.data) {
+    const customerData = {
+      email: response.data?.email,
+      mobile: response.data?.mobile,
+      name: response.data?.name,
+    };
+
+    localStorage.setItem("customer", JSON.stringify(customerData));
+    return response.data;
+  }
+};
+const userLogout = async () => {
+  const response = await axiosInstance.post(`${baseUrl}/user/logout`);
   if (response.data) {
     return response.data;
   }
 };
 const userWishlist = async () => {
-  const response = await axios.get(`${baseUrl}/user/wishlist`, createConfig());
+  const response = await axiosInstance.get(`${baseUrl}/user/wishlist`);
   if (response.data) {
     return response.data;
   }
 };
+const addWishlist = async (prodId) => {
+  const response = await axiosInstance.put(`${baseUrl}/user/add-to-wishlist`, {
+    prodId,
+  });
+  if (response.data) {
+    return response.data.wishlist;
+  }
+};
 
 const addToCart = async (data) => {
-  const response = await axios.post(
-    `${baseUrl}/user/cart/`,
-    data,
-    createConfig()
-  );
+  const response = await axiosInstance.post(`${baseUrl}/user/cart/`, data);
   if (response.data) {
     return response.data;
   }
 };
 
 const getUserCart = async () => {
-  const response = await axios.get(`${baseUrl}/user/`, createConfig());
+  const response = await axiosInstance.get(`${baseUrl}/user/`);
   if (response.data) {
     return response.data;
   }
 };
 const deleteACart = async (prodId) => {
-  const response = await axios.delete(
-    `${baseUrl}/user/delete-product/${prodId}`,
-    createConfig()
+  const response = await axiosInstance.delete(
+    `${baseUrl}/user/delete-product/${prodId}`
   );
   if (response.data) {
     return response.data;
@@ -63,14 +67,24 @@ const deleteACart = async (prodId) => {
 };
 
 const updateQuantity = async (quantityUpdate) => {
-  const response = await axios.put(
-    `${baseUrl}/user/update-usercart/`,
-    {
-      prodId: quantityUpdate?.prodId,
-      newQuantity: quantityUpdate?.newQuantity,
-    },
-    createConfig()
-  );
+  const response = await axiosInstance.put(`${baseUrl}/user/update-usercart/`, {
+    prodId: quantityUpdate?.prodId,
+    newQuantity: quantityUpdate?.newQuantity,
+  });
+  if (response.data) {
+    return response.data;
+  }
+};
+
+const createOrder = async (data) => {
+  const response = await axiosInstance.post(`${baseUrl}/user/order`, data);
+  if (response.data) {
+    return response.data;
+  }
+};
+
+const getOrder = async () => {
+  const response = await axiosInstance.get(`${baseUrl}/user/orders`);
   if (response.data) {
     return response.data;
   }
@@ -78,9 +92,13 @@ const updateQuantity = async (quantityUpdate) => {
 export const authService = {
   register,
   login,
+  userLogout,
   userWishlist,
+  addWishlist,
   addToCart,
   getUserCart,
   updateQuantity,
   deleteACart,
+  createOrder,
+  getOrder,
 };

@@ -31,6 +31,8 @@
 }
 .prod-title {
   padding: 5px;
+  text-align: center;
+  text-wrap: wrap;
 }
 .price {
   font-size: 20px;

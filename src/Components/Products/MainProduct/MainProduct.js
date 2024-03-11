@@ -3,16 +3,11 @@ import "./MainProduct.css";
 import logo512 from "../../../images/logo512.png";
 import Rating from "react-rating";
 import { IoStarOutline, IoStarSharp } from "react-icons/io5";
-import { useDispatch } from "react-redux";
-import { addToWishlist } from "../../../features/products/productSlice";
 import { useNavigate } from "react-router-dom";
 
 const MainProduct = ({ prodData }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const addToWish = (id) => {
-    dispatch(addToWishlist(id));
-  };
+
   return (
     <>
       {prodData.map((data, index) => (
@@ -35,13 +30,6 @@ const MainProduct = ({ prodData }) => {
                   fullSymbol={<IoStarSharp />}
                   emptySymbol={<IoStarOutline />}
                 />
-              </span>
-              <span
-                onClick={() => {
-                  addToWish(data?._id);
-                }}
-              >
-                add wishlist
               </span>
             </div>
           </div>

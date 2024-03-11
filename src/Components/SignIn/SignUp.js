@@ -12,7 +12,9 @@ const phoneRegExp =
 const signupSchema = Yup.object({
   name: Yup.string().required("Name is required"),
   email: Yup.string().email().required("Email should be valid"),
-  mobile: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  mobile: Yup.string()
+    .required()
+    .matches(phoneRegExp, "Phone number is not valid"),
   password: Yup.string().required("Password is required"),
 });
 

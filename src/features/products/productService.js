@@ -4,7 +4,6 @@ import { baseUrl } from "../../utils/baseUrl";
 
 const createConfig = () => {
   const getToken = localStorage.getItem("token");
-  console.log("from config", getToken);
   return {
     headers: {
       authorization: `Bearer ${getToken ? getToken : null}`,
@@ -20,17 +19,6 @@ const getProducts = async () => {
   }
 };
 
-const addWishlist = async (prodId) => {
-  const response = await axios.put(
-    `${baseUrl}/products/wishlist`,
-    { prodId },
-    createConfig()
-  );
-  if (response.data) {
-    return response.data.wishlist;
-  }
-};
-
 const singleProduct = async (prodId) => {
   const response = await axios.get(`${baseUrl}/products/${prodId}`);
   if (response.data) {
@@ -40,6 +28,5 @@ const singleProduct = async (prodId) => {
 
 export const productService = {
   getProducts,
-  addWishlist,
   singleProduct,
 };

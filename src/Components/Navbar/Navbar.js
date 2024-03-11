@@ -5,16 +5,25 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { IoSearch, IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOutUser } from "../../features/user/userSlice";
 
 const Navbar = () => {
   const userNameState = useSelector((state) => state?.auth?.user?.name);
   const authState = useSelector((state) => state?.auth);
   const [isopen, setIsopen] = useState(false);
-  const handleLogout = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    await dispatch(logOutUser());
     localStorage.clear();
-    window.location.reload();
+    navigate("/");
+    setTimeout(() => {
+      if (!authState?.loggedOut) {
+        window.location.reload();
+      }
+    }, 300);
   };
   return (
     <>
@@ -52,19 +61,22 @@ const Navbar = () => {
             <RiAccountCircleFill size={24} />
           </div>
           {authState?.user === null ? (
-            <NavLink to={"/signin"}>
-              <div>Login</div>
-            </NavLink>
+            <>
+              <NavLink to={"/signin"}>
+                <div>Login</div>
+              </NavLink>
+              <NavLink to={"/signup"}>
+                <div>Signup</div>
+              </NavLink>
+            </>
           ) : (
             <button onClick={handleLogout}>Logout</button>
           )}
-          <NavLink to={"/signup"}>
-            <div>Signup</div>
-          </NavLink>
         </div>
         {userNameState && (
           <span style={{ fontSize: "15px" }}>{userNameState}</span>
         )}
+        {/* <button onClick={handleRefresh}>Refresh Token </button> */}
       </header>
       {isopen && (
         <div className="side-nav-background" onClick={() => setIsopen(!isopen)}>

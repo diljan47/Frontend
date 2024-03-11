@@ -7,13 +7,16 @@ const Wishlist = () => {
   useEffect(() => {
     dispatch(getuserWishlist());
   }, []);
-  const wishlistState = useSelector(
-    (state) => state.auth?.user?.wishlist || []
-  );
+
+  const wishlistState = useSelector((state) => state.auth?.wishlist?.wishlist);
   return (
     <div className="wishlist-cart-container">
       <div className="wishlist-cart-cont">
-        {wishlistState.length > 0 ? "" : <span>Wishlist Empty</span>}
+        {(wishlistState && wishlistState.length == []) || null ? (
+          <span>Wishlist Empty</span>
+        ) : (
+          ""
+        )}
         {wishlistState &&
           wishlistState.map((data, index) => {
             return (

@@ -31,17 +31,6 @@ export const getAProduct = createAsyncThunk(
   }
 );
 
-export const addToWishlist = createAsyncThunk(
-  "product/wishlist",
-  async (prodId, thunkapi) => {
-    try {
-      return await productService.addWishlist(prodId);
-    } catch (error) {
-      return thunkapi.rejectWithValue(error);
-    }
-  }
-);
-
 export const productSlice = createSlice({
   name: "product",
   initialState: productState,
@@ -65,26 +54,6 @@ export const productSlice = createSlice({
         if (state.isError === true) {
           toast.error(action.payload);
         }
-      })
-      .addCase(addToWishlist.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addToWishlist.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = true;
-        state.addToWishlist = action.payload;
-        state.message = "added to wishlist";
-        if (state.isSuccess === true) {
-          toast.success("added to wishlist");
-        }
-      })
-      .addCase(addToWishlist.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.payload?.messsage;
-        toast.warning("Please Login To Add Products");
       })
       .addCase(getAProduct.pending, (state) => {
         state.isLoading = true;

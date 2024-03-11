@@ -1,7 +1,6 @@
-.order-cart-container {
+.cart-cart-container {
   max-width: 1536px;
   margin: auto;
-  height: 70vh;
   padding: 1rem;
   background-color: antiquewhite;
 }
@@ -36,7 +35,9 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  text-wrap: nowrap;
+}
+.text-prod-title {
+  text-wrap: wrap;
 }
 .delete-col {
   padding: 1rem;
@@ -53,19 +54,19 @@
 }
 
 /*////*/
-.order-sum {
+.cart-sum {
   background-color: white;
   border-radius: 0.5rem;
   margin: 1rem;
   padding: 1rem;
 }
 
-.order-sum-col {
+.cart-sum-col {
   display: flex;
   gap: 10px;
   flex-direction: column;
 }
-.order-spacebtw {
+.cart-spacebtw {
   justify-content: space-between;
 }
 .checkout-btn {

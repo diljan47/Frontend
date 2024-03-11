@@ -7,7 +7,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAProduct } from "../../../features/products/productSlice";
 import { toast } from "sonner";
-import { addProductsToCart, getCart } from "../../../features/user/userSlice";
+import {
+  addProductsToCart,
+  addToWishlist,
+  getCart,
+} from "../../../features/user/userSlice";
 const SingleProduct = () => {
   const singleProdState = useSelector((state) => state?.product?.product);
   const userCartState = useSelector((state) => state?.auth?.userCart);
@@ -34,6 +38,9 @@ const SingleProduct = () => {
         })
       );
     }
+  };
+  const addToWishProd = (pramId) => {
+    dispatch(addToWishlist(pramId));
   };
 
   useEffect(() => {
@@ -130,6 +137,12 @@ const SingleProduct = () => {
                   Add To Cart
                 </button>
               )}
+              <button
+                onClick={() => addToWishProd(pramId)}
+                className="addCart-btn"
+              >
+                Add To Wishlist
+              </button>
             </div>
           </div>
         </div>
