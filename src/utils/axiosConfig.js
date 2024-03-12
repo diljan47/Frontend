@@ -2,16 +2,47 @@ import axios from "axios";
 import { baseUrl } from "./baseUrl";
 
 const axiosInstance = axios.create({ baseURL: baseUrl, withCredentials: true });
+
 const handleRefresh = async () => {
   try {
     const response = await axios.get(`${baseUrl}/user/refresh`, {
       withCredentials: true,
     });
+
     if (response?.data?.newaccessToken) {
       localStorage.setItem("token", response?.data?.newaccessToken);
     }
+    if (response?.data) {
+      const customerData = {
+        email: response.data?.email,
+        mobile: response.data?.mobile,
+        name: response.data?.name,
+      };
+
+      localStorage.setItem("customer", JSON.stringify(customerData));
+    }
+    window.location.reload();
   } catch (error) {
-    console.error("Error refreshing token:", error.message);
+    if (error.response?.status === 403) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("customer");
+
+      await handleForceLogout();
+    }
+    console.log(error);
+  }
+};
+
+const handleForceLogout = async () => {
+  try {
+    await axiosInstance.post(`${baseUrl}/user/logout`, null, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.log(("eeeeeeee", error));
+    if (error.response?.status === 403) {
+      window.location.href = "/signin";
+    }
   }
 };
 
@@ -19,9 +50,6 @@ const handleRefresh = async () => {
 axiosInstance.interceptors.request.use(
   (config) => {
     const getToken = localStorage.getItem("token");
-    if (getToken == null) {
-      console.log("no token");
-    }
     config.headers.Authorization = `Bearer ${getToken || ""}`;
     return config;
   },
@@ -36,17 +64,18 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    if (error.response && error.response.status === 401) {
-      console.log("401 error", error.response.status);
-      try {
-        await handleRefresh();
-        window.location.reload();
-      } catch (refreshError) {
-        console.error("Token refresh error:", refreshError);
-        throw refreshError;
+    try {
+      if (error.response) {
+        if (error.response.status === 401) {
+          await handleRefresh();
+        } else if (error.response.status === 403) {
+          console.log("403 error");
+        }
       }
+    } catch (refreshError) {
+      console.log("refresh error", refreshError);
+      throw refreshError;
     }
-    console.log("Error:", error.message);
     return Promise.reject(error);
   }
 );

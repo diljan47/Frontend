@@ -39,14 +39,10 @@ const SingleProduct = () => {
       );
     }
   };
-  const addToWishProd = (pramId) => {
-    dispatch(addToWishlist(pramId));
-  };
 
   useEffect(() => {
     dispatch(getAProduct(pramId));
-    dispatch(getCart());
-  }, []);
+  }, [pramId, dispatch]);
 
   useEffect(() => {
     let looped = false;
@@ -138,7 +134,7 @@ const SingleProduct = () => {
                 </button>
               )}
               <button
-                onClick={() => addToWishProd(pramId)}
+                onClick={() => dispatch(addToWishlist(pramId))}
                 className="addCart-btn"
               >
                 Add To Wishlist

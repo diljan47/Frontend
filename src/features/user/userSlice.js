@@ -239,7 +239,6 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload?.messsage;
-        console.log(state.message);
       })
       .addCase(addProductsToCart.pending, (state) => {
         state.isLoading = true;
@@ -287,7 +286,6 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload?.message;
-        toast.error(state.message);
       })
       .addCase(updateQuantityFromCart.pending, (state) => {
         state.isLoading = true;
@@ -303,7 +301,6 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload?.message;
-        toast.error("Something went wrong");
       })
       .addCase(createOrderCart.pending, (state) => {
         state.isLoading = true;
@@ -333,7 +330,6 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        toast.error("Something went wrong");
       });
   },
 });
