@@ -4,7 +4,6 @@ import * as Yup from "yup";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { baseUrl } from "../../utils/baseUrl";
 import axios from "axios";
 import OrderSuccessComp from "../Order/Success/OrderSuccess";
 import {
@@ -12,6 +11,7 @@ import {
   getCart,
   getUserOrder,
 } from "../../features/user/userSlice";
+const baseUrl = process.env.baseURL;
 
 const createConfig = () => {
   const getToken = localStorage.getItem("token");

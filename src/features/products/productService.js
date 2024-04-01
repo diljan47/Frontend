@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+const baseUrl = process.env.baseURL;
 
 const getProducts = async (queryUrl) => {
   if (queryUrl) {

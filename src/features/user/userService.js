@@ -1,5 +1,5 @@
-import { baseUrl } from "../../utils/baseUrl";
 import axiosInstance from "../../utils/axiosConfig";
+const baseUrl = process.env.baseURL;
 
 const register = async (userData) => {
   const response = await axiosInstance.post(
