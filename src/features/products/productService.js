@@ -1,19 +1,20 @@
 import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
-// import { config } from "../../utils/axiosConfig";
 
-const createConfig = () => {
-  const getToken = localStorage.getItem("token");
-  return {
-    headers: {
-      authorization: `Bearer ${getToken ? getToken : null}`,
-      Accept: "application/json",
-    },
-  };
-};
+const getProducts = async (queryUrl) => {
+  if (queryUrl) {
+    console.log(queryUrl);
+  }
+  const response = await axios.get(
+    `${baseUrl}/products?${queryUrl.sort ? `sort=${queryUrl.sort}&` : ""}${
+      queryUrl.brand ? `brand=${queryUrl.brand}&` : ""
+    }${queryUrl.gender ? `gender=${queryUrl?.gender}&` : ""}${
+      queryUrl.categories ? `categories=${queryUrl?.categories}&` : ""
+    }${queryUrl.color ? `color=${queryUrl?.color}&` : ""}${
+      queryUrl.priceRange ? `priceRange=${queryUrl?.priceRange}&` : ""
+    }${queryUrl.minRating ? `minrating=${queryUrl?.minRating}&` : ""}`
+  );
 
-const getProducts = async () => {
-  const response = await axios.get(`${baseUrl}/products`);
   if (response.data) {
     return response.data;
   }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import { RiAccountCircleFill } from "react-icons/ri";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaProductHunt } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { IoSearch, IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -37,16 +37,18 @@ const Navbar = () => {
         </NavLink>
         <div className="search">
           <input className="input" placeholder="Search" />
-          <NavLink to={"/search/products"}>
-            <div className="search-btn">
-              <IoSearch size={20} />
-            </div>
-          </NavLink>
+          <div className="search-btn">
+            <IoSearch size={20} />
+          </div>
         </div>
         <div className="section">
           <div className="search-btn-mob">
             <IoSearch size={24} />
           </div>
+          <NavLink to={"/search/products"}>
+            <FaProductHunt size={24} />
+          </NavLink>
+
           <NavLink to={"/search/wishlist"}>
             <div>
               <FaHeart size={24} />

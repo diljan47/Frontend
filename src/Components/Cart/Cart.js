@@ -2,30 +2,57 @@ import React, { useState, useEffect } from "react";
 import "./Cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addToWishlist,
   deleteAProdCart,
+  emptyCart,
   getCart,
   updateQuantityFromCart,
 } from "../../features/user/userSlice";
 import { MdDelete } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { IoIosHeart } from "react-icons/io";
 
 const Cart = () => {
   const [quantityUpdates, setQuantityUpdates] = useState({});
   const [productTotals, setProductTotals] = useState({});
   const [subTotals, setSubtotals] = useState(0);
+  const [wishBtn, setWishlistBtn] = useState(false);
+  const userState = useSelector((state) => state?.user);
   const cartState = useSelector((state) => state?.auth?.userCart);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCart());
-  }, []);
-
-  const deleteProduct = (productId) => {
-    dispatch(deleteAProdCart(productId));
-    setTimeout(() => {
+    if (userState !== null) {
       dispatch(getCart());
-    }, 200);
+    } else {
+      navigate("/signin");
+    }
+  }, [userState]);
+
+  const deleteProduct = async (productId) => {
+    try {
+      await dispatch(deleteAProdCart(productId));
+      await dispatch(getCart());
+    } catch (error) {
+      console.error("Error deleting product or fetching cart:", error);
+    }
+  };
+
+  const handleAddtoWish = async (id) => {
+    if (wishBtn) {
+      return;
+    }
+    setWishlistBtn(true);
+    try {
+      await dispatch(addToWishlist(id));
+      await deleteProduct(id);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setWishlistBtn(false);
+    }
   };
 
   const handleQuantityChange = (productId, newQuantity) => {
@@ -71,7 +98,10 @@ const Cart = () => {
         <div className="cart-cont">
           {cartState.map((item, index) => (
             <div key={index} className="cart-sum">
-              <div className="prod-sum">
+              <div
+                onClick={() => navigate(`/${item?.productId?._id}`)}
+                className="prod-sum"
+              >
                 <div className="image-prod">image</div>
                 <div className="text-prod">
                   <span>{item?.productId?.title}</span>
@@ -104,6 +134,13 @@ const Cart = () => {
                   />
                 </div>
               </div>
+              <button
+                disabled={wishBtn}
+                onClick={() => handleAddtoWish(item?.productId?._id)}
+                style={{ border: "none", height: "0px", cursor: "pointer" }}
+              >
+                <IoIosHeart size={20} />
+              </button>
             </div>
           ))}
           <div className="cart-sum">
@@ -118,6 +155,15 @@ const Cart = () => {
                   <span style={{ color: "white" }}>Go to Checkout</span>
                 </NavLink>
               </div>
+              <button
+                className="checkout-btn"
+                style={{ backgroundColor: "orange", color: "black" }}
+                onClick={() => {
+                  dispatch(emptyCart());
+                }}
+              >
+                Empty Cart
+              </button>
             </div>
           </div>
         </div>

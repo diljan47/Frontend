@@ -99,6 +99,7 @@
   padding: 10px;
 }
 .addCart-btn {
+  cursor: pointer;
   background-color: black;
   color: white;
   font-weight: 500;

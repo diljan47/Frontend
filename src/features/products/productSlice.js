@@ -10,10 +10,10 @@ const productState = {
   message: "",
 };
 export const getAllProducts = createAsyncThunk(
-  "product/get",
-  async (thunkapi) => {
+  "product/all",
+  async (queryUrl, thunkapi) => {
     try {
-      return await productService.getProducts();
+      return await productService.getProducts(queryUrl);
     } catch (error) {
       return thunkapi.rejectWithValue(error);
     }
@@ -39,6 +39,7 @@ export const productSlice = createSlice({
     builder
       .addCase(getAllProducts.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -52,11 +53,12 @@ export const productSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
         if (state.isError === true) {
-          toast.error(action.payload);
+          toast.error("Something went wrong");
         }
       })
       .addCase(getAProduct.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
       })
       .addCase(getAProduct.fulfilled, (state, action) => {
         state.isLoading = false;

@@ -44,6 +44,15 @@ const addWishlist = async (prodId) => {
   }
 };
 
+const removeFromWishlist = async (prodId) => {
+  const response = await axiosInstance.post(`${baseUrl}/user/remove-wishlist`, {
+    prodId,
+  });
+  if (response.data) {
+    return response.data.wishlist;
+  }
+};
+
 const addToCart = async (data) => {
   const response = await axiosInstance.post(`${baseUrl}/user/cart/`, data);
   if (response.data) {
@@ -61,6 +70,13 @@ const deleteACart = async (prodId) => {
   const response = await axiosInstance.delete(
     `${baseUrl}/user/delete-product/${prodId}`
   );
+  if (response.data) {
+    return response.data;
+  }
+};
+
+const emptyACart = async () => {
+  const response = await axiosInstance.delete(`${baseUrl}/user/empty-cart`);
   if (response.data) {
     return response.data;
   }
@@ -95,8 +111,10 @@ export const authService = {
   userLogout,
   userWishlist,
   addWishlist,
+  removeFromWishlist,
   addToCart,
   getUserCart,
+  emptyACart,
   updateQuantity,
   deleteACart,
   createOrder,

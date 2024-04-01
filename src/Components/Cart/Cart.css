@@ -23,8 +23,12 @@
   align-items: center;
   display: flex;
   padding: 10px;
+  cursor: pointer;
 }
-
+.prod-sum:hover {
+  background-color: rgba(226, 226, 226, 0.336);
+  border-radius: 8px;
+}
 .image-prod {
   width: 50px;
   height: 50px;
@@ -48,9 +52,8 @@
 }
 .delete-btn {
   cursor: pointer;
-}
-.delete-btn:hover {
   color: red;
+  justify-content: space-around;
 }
 
 /*////*/
@@ -72,9 +75,11 @@
 .checkout-btn {
   color: white;
   padding: 1rem;
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   margin: auto;
+  border: none;
   background-color: black;
+  cursor: pointer;
 }
 @media (max-width: 1536px) {
   .single-container {

@@ -66,6 +66,17 @@ export const addToWishlist = createAsyncThunk(
   }
 );
 
+export const removeWishlist = createAsyncThunk(
+  "user/wishlist/remove",
+  async (prodId, thunkapi) => {
+    try {
+      return await authService.removeFromWishlist(prodId);
+    } catch (error) {
+      return thunkapi.rejectWithValue(error);
+    }
+  }
+);
+
 export const addProductsToCart = createAsyncThunk(
   "user/cart/add",
   async (data, thunkapi) => {
@@ -102,6 +113,17 @@ export const updateQuantityFromCart = createAsyncThunk(
   async (quantityUpdate, thunkapi) => {
     try {
       return await authService.updateQuantity(quantityUpdate);
+    } catch (error) {
+      return thunkapi.rejectWithValue(error);
+    }
+  }
+);
+
+export const emptyCart = createAsyncThunk(
+  "user/cart/empty",
+  async (thunkapi) => {
+    try {
+      return await authService.emptyACart();
     } catch (error) {
       return thunkapi.rejectWithValue(error);
     }
@@ -202,9 +224,6 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.loggedOut = false;
-        if (state.isError === true) {
-          toast.error("Something went wrong");
-        }
       })
       .addCase(getuserWishlist.pending, (state) => {
         state.isLoading = true;
@@ -228,13 +247,29 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.userWishlist = action.payload;
+        state.wishlist = action.payload;
         state.message = "added to wishlist";
         if (state.isSuccess === true) {
           toast.success("added to wishlist");
         }
       })
       .addCase(addToWishlist.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload?.messsage;
+      })
+      .addCase(removeWishlist.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeWishlist.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.removedWishlist = action.payload;
+        state.message = "removed from wishlist";
+      })
+      .addCase(removeWishlist.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -282,6 +317,25 @@ export const authSlice = createSlice({
         state.deletedCart = action.payload;
       })
       .addCase(deleteAProdCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload?.message;
+      })
+      .addCase(emptyCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(emptyCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+        if (state.isSuccess === true) {
+          state.userCart = null;
+          toast.success("Cart Cleared");
+        }
+      })
+      .addCase(emptyCart.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

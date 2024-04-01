@@ -2,58 +2,92 @@ import React, { useEffect, useState } from "react";
 import "./SingleProduct.css";
 import Rating from "react-rating";
 import { IoStarOutline, IoStarSharp } from "react-icons/io5";
-import img from "../../../images/logo512.png";
+import img from "../../images/logo512.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAProduct } from "../../../features/products/productSlice";
+import { getAProduct } from "../../features/products/productSlice";
 import { toast } from "sonner";
 import {
   addProductsToCart,
   addToWishlist,
   getCart,
-} from "../../../features/user/userSlice";
+  getuserWishlist,
+} from "../../features/user/userSlice";
 const SingleProduct = () => {
   const singleProdState = useSelector((state) => state?.product?.product);
   const userCartState = useSelector((state) => state?.auth?.userCart);
-
+  const wishlistState = useSelector((state) => state?.auth?.wishlist);
+  const userState = useSelector((state) => state?.user);
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const location = useLocation();
   const pramId = location.pathname.split("/")[1];
   const [isCartAdded, setIsCartAdded] = useState(false);
-
+  const [isWishlistAdded, setIsWishlistAdded] = useState(false);
+  const [cartBtndisabled, setCartBtnDisabled] = useState(false);
+  const [wishBtnDisabled, setWishBtnDisabled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const addProdsToCart = () => {
+  const addProdsToCart = async () => {
     if (color === null) {
       toast.warning("Please Choose A Color");
       return false;
     } else {
-      dispatch(
-        addProductsToCart({
-          productId: singleProdState?._id,
-          color,
-          quantity,
-          price: singleProdState?.price,
-        })
-      );
+      try {
+        setCartBtnDisabled(true);
+        await dispatch(
+          addProductsToCart({
+            productId: singleProdState?._id,
+            color,
+            quantity,
+            price: singleProdState?.price,
+          })
+        );
+        navigate("/cart");
+      } catch (error) {
+        console.error("Error adding product to cart:", error);
+      } finally {
+        setCartBtnDisabled(false);
+      }
+    }
+  };
+  const handleAddtoWishlist = async (pramId) => {
+    try {
+      setWishBtnDisabled(true);
+      await dispatch(addToWishlist(pramId));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setWishBtnDisabled(false);
     }
   };
 
   useEffect(() => {
     dispatch(getAProduct(pramId));
-  }, [pramId, dispatch]);
+    if (!userState == null) {
+      dispatch(getuserWishlist());
+    }
+  }, [pramId, userState, dispatch]);
 
   useEffect(() => {
-    let looped = false;
+    let isCart = false;
+    let isWish = false;
     for (let i = 0; userCartState && i < userCartState.length; i++) {
       if (userCartState[i].productId?._id === singleProdState._id) {
-        looped = true;
+        isCart = true;
         break;
       }
     }
-    setIsCartAdded(looped);
-  }, [singleProdState, userCartState]);
+    for (let i = 0; wishlistState && i < wishlistState.length; i++) {
+      if (wishlistState[i]._id === singleProdState._id) {
+        isWish = true;
+        break;
+      }
+    }
+    setIsCartAdded(isCart);
+    setIsWishlistAdded(isWish);
+  }, [wishlistState, singleProdState, userCartState]);
+
   return (
     <>
       {singleProdState && (
@@ -127,18 +161,29 @@ const SingleProduct = () => {
                 </button>
               ) : (
                 <button
+                  disabled={cartBtndisabled}
                   onClick={() => addProdsToCart()}
                   className="addCart-btn"
                 >
                   Add To Cart
                 </button>
               )}
-              <button
-                onClick={() => dispatch(addToWishlist(pramId))}
-                className="addCart-btn"
-              >
-                Add To Wishlist
-              </button>
+              {isWishlistAdded ? (
+                <button
+                  onClick={() => navigate("/search/wishlist")}
+                  className="addCart-btn"
+                >
+                  Go To Wishlist
+                </button>
+              ) : (
+                <button
+                  disabled={wishBtnDisabled}
+                  onClick={() => handleAddtoWishlist(pramId)}
+                  className="addCart-btn"
+                >
+                  Add To Wishlist
+                </button>
+              )}
             </div>
           </div>
         </div>

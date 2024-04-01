@@ -69,7 +69,6 @@ const Order = () => {
     },
     validationSchema: orderSchema,
   });
-  console.log(orderState);
   useEffect(() => {
     let total = 0;
     let detailsArray = [];

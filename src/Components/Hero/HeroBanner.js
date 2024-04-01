@@ -1,9 +1,8 @@
 import React from "react";
 import "./HeroBanner.css";
-import { Link } from "react-router-dom";
 
 const HeroBanner = () => {
-  return <div>HeroBanner</div>;
+  return <div>hero banner</div>;
 };
 
 export default HeroBanner;

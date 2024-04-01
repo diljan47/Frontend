@@ -1,18 +1,10 @@
-import React, { useEffect } from "react";
-import Category from "../Components/Category/Category";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../features/products/productSlice";
+import React from "react";
+import Products from "../Components/Products/Products";
 
 const ProductPage = () => {
-  const dispatch = useDispatch();
-  const prodData = useSelector((state) => state.product.product.data);
-
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
   return (
     <>
-      <Category prodData={prodData ? prodData : []} />
+      <Products />
     </>
   );
 };

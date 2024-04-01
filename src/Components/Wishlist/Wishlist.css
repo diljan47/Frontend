@@ -3,6 +3,7 @@
   margin: auto;
   padding: 2rem;
   background-color: antiquewhite;
+  align-items: center;
 }
 
 .wishlist-cart-cont {
@@ -26,6 +27,7 @@
   align-items: center;
   display: flex;
   padding: 10px;
+  cursor: pointer;
 }
 
 .wishlist-image-prod {
@@ -38,7 +40,7 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  text-wrap: nowrap;
+  text-wrap: wrap;
 }
 .wishlist-delete-col {
   padding: 1rem;
@@ -48,16 +50,35 @@
   flex-direction: column;
 }
 
-/*////*/
-
+.wishlist-dlt-btn {
+  cursor: pointer;
+  align-self: center;
+  margin-right: 0.5rem;
+  color: red;
+}
 .wishlist-checkout-btn {
   text-wrap: wrap;
   color: white;
-  padding: 0.5rem;
+  padding: 0.6rem;
   border-radius: 1rem;
   margin: auto;
   background-color: black;
+  cursor: pointer;
 }
+
+.wishlist-col-cont {
+  gap: 0.8rem;
+  align-self: flex-end;
+  display: flex;
+}
+
+.wishlist-col-cont > li {
+  list-style: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
+
 @media (max-width: 1536px) {
   .wishlist-single-container {
     max-width: 1280px;

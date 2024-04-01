@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import SingleProductPage from "./Components/Products/SingleProduct/SingleProduct";
+import SingleProductPage from "./Pages/SingleProductPage";
 import ProductPage from "./Pages/ProductPage";
 import SignInPage from "./Pages/SignIn";
 import SignUpPage from "./Pages/SignUpPage";
@@ -14,7 +14,15 @@ import OrderPage from "./Pages/OrderPage";
 function App() {
   return (
     <>
-      <Toaster richColors position="top-center" />
+      <Toaster
+        richColors
+        position="top-center"
+        toastOptions={{
+          style: { background: "white" },
+          className: "my-toast",
+          duration: 1000,
+        }}
+      />
 
       <BrowserRouter>
         <Routes>

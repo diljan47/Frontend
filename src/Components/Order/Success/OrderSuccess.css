@@ -1,0 +1,11 @@
+.order-succ-cont {
+  max-width: 1536px;
+  margin: auto;
+  padding: 1rem;
+  background-color: rgba(250, 235, 215, 0.808);
+}
+@media (max-width: 1536px) {
+  .order-succ-cont {
+    max-width: 1280px;
+  }
+}

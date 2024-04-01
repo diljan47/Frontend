@@ -39,7 +39,6 @@ const handleForceLogout = async () => {
       withCredentials: true,
     });
   } catch (error) {
-    console.log(("eeeeeeee", error));
     if (error.response?.status === 403) {
       window.location.href = "/signin";
     }
