@@ -1,7 +1,8 @@
 import axios from "axios";
-const baseUrl = process.env.baseURL;
+const baseUrl = process.env.REACT_APP_BASE_URL;
+console.log(baseUrl);
 
-const axiosInstance = axios.create({ baseURL: baseUrl, withCredentials: true });
+const axiosInstance = axios.create({ baseUrl: baseUrl, withCredentials: true });
 
 const handleRefresh = async () => {
   try {

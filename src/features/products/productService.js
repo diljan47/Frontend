@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = process.env.baseURL;
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const getProducts = async (queryUrl) => {
   if (queryUrl) {

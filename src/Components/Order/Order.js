@@ -11,7 +11,7 @@ import {
   getCart,
   getUserOrder,
 } from "../../features/user/userSlice";
-const baseUrl = process.env.baseURL;
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const createConfig = () => {
   const getToken = localStorage.getItem("token");

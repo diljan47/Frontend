@@ -1,5 +1,5 @@
 import axiosInstance from "../../utils/axiosConfig";
-const baseUrl = process.env.baseURL;
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const register = async (userData) => {
   const response = await axiosInstance.post(
