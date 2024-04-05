@@ -8,21 +8,29 @@ const OrderSuccessComp = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserOrder());
-  }, [orderState]);
+  }, []);
 
   // check the code its wrong
 
   return (
     <div className="order-succ-cont">
       <div className="order-succ-sub">
-        <span>Your Order</span>
-        {orderState && orderState?.orderProducts
+        <span
+          style={{
+            textAlign: "center",
+            marginLeft: "30rem",
+            fontSize: "20px",
+          }}
+        >
+          Your Order is Successfull{" "}
+        </span>
+        {/* {orderState && orderState?.orderProducts
           ? orderState?.orderProducts?.map((prods, i) => (
               <div key={i}>
                 <img src={prods?.product?.images} alt="" />
               </div>
             ))
-          : "Empty Products"}
+          : "Empty Products"} */}
       </div>
     </div>
   );
