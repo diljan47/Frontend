@@ -60,6 +60,31 @@ textarea {
   margin-right: 2.5rem;
   display: flex;
 }
+.nav-login-cont {
+  display: flex;
+  gap: 1rem;
+  border: none;
+}
+.nav-login-cont .nav-login {
+  border-bottom: none;
+}
+.nav-login-cont .nav-logout {
+  border-bottom: none;
+}
+.nav-login-cont-mob {
+  display: none;
+}
+.nav-login-cont {
+  margin-bottom: 6px;
+}
+.nav-login-btn-mob {
+  display: none;
+  cursor: pointer;
+}
+.nav-login-btn {
+  cursor: pointer;
+  display: block;
+}
 
 /* side-nav */
 
@@ -142,6 +167,35 @@ textarea {
 @media (max-width: 768px) {
   .nav-container {
     max-width: 90%;
+    position: relative;
+  }
+  .nav-login-cont-mob {
+    position: absolute;
+    top: calc(100%);
+    right: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    gap: 1rem;
+    background-color: rgba(152, 163, 163, 0.055);
+    text-align: center;
+  }
+  .nav-login {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.39);
+  }
+  .nav-logout {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.39);
+  }
+  .nav-login-cont {
+    display: none;
+  }
+
+  .nav-login-btn-mob {
+    display: block;
+  }
+  .nav-login-btn {
+    display: none;
   }
 }
 @media (max-width: 640px) {

@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { getUserOrder } from "../../../features/user/userSlice";
 const OrderSuccessComp = () => {
   const orderState = useSelector((state) => state?.auth?.userOrder);
-  console.log(orderState);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserOrder());

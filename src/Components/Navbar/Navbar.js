@@ -13,6 +13,7 @@ const Navbar = () => {
   const userNameState = useSelector((state) => state?.auth?.user?.name);
   const authState = useSelector((state) => state?.auth);
   const [isopen, setIsopen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = async () => {
@@ -59,18 +60,27 @@ const Navbar = () => {
               <FaCartShopping size={24} />
             </div>
           </NavLink>
-          <div>
+          <div className="nav-login-btn">
             <RiAccountCircleFill size={24} />
           </div>
+          <div
+            className="nav-login-btn-mob"
+            onClick={() => setIsLoginOpen(!isLoginOpen)}
+          >
+            <RiAccountCircleFill size={24} />
+          </div>
+
           {authState?.user === null ? (
-            <>
+            <div
+              className={isLoginOpen ? "nav-login-cont-mob" : "nav-login-cont"}
+            >
               <NavLink to={"/signin"}>
-                <div>Login</div>
+                <div className="nav-login">Login</div>
               </NavLink>
               <NavLink to={"/signup"}>
-                <div>Signup</div>
+                <div className="nav-logout">Signup</div>
               </NavLink>
-            </>
+            </div>
           ) : (
             <button onClick={handleLogout}>Logout</button>
           )}
